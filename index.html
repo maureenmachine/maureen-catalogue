@@ -1,0 +1,139 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Maureen Machine - Catalogue</title>
+    <!-- <link rel="stylesheet" href="assets/styles/main.css"> -->
+</head>
+
+<body>
+    <div id="header">
+        <img id="avatar" src="images/avatar.png" />
+        <h1> Maureen Machine prints catalogue</h1>
+        <p>Next con: Comet Con Asturias</p>
+    </div>
+    <div id="catalogue">
+        <img class="print" src="" title="a-anime" />
+    </div>
+    <div id="zoom"><img src="" title="" /></div>
+    <div id="footer"></div>
+</body>
+
+</html>
+
+<script>
+    function sortByTitle(a, b) {
+        return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
+    }
+
+    function createH2(text) {
+        let h2 = document.createElement("h2");
+        h2.innerHTML = text;
+        return h2;
+    }
+
+    function zoomPrint(src, title) {
+        zoom.childNodes[0].src = src;
+        zoom.childNodes[0].title = title;
+        zoom.style.display = "flex";
+    }
+
+    function closeZoom() {
+        zoom.style.display = "none";
+    }
+
+
+    let prints = Array.from(document.getElementsByClassName("print")).sort(sortByTitle);
+    let catalogue = document.getElementById("catalogue");
+    let zoom = document.getElementById("zoom");
+    let letter = "";
+
+    catalogue.innerHTML = "";
+
+    prints.forEach(element => {
+        if (element.title[0] != letter) {
+            letter = element.title[0];
+            catalogue.append(createH2(letter.toUpperCase()))
+        }
+        catalogue.append(element);
+        element.addEventListener("click", () => { zoomPrint(element.src, element.title); });
+    });
+    zoom.addEventListener("click", () => { closeZoom(); });
+</script>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+    html {
+        background-color: lightpink;
+        font-family: "Open Sans";
+        color: white;
+    }
+
+    #catalogue {
+        text-align: center;
+    }
+
+    #avatar {
+        border-radius: 50%;
+        max-width: 15rem;
+    }
+
+    #header {
+        width: 100%;
+        margin-top: 2rem;
+        text-align: center;
+    }
+
+    .print {
+        height: 20rem;
+        width: auto;
+        cursor: pointer;
+        background-color: deepskyblue;
+        margin: 0 .3333rem .6666rem .3333rem;
+    }
+
+    h2 {
+        width: 100%;
+        text-align: center;
+        padding-bottom: .5rem;
+        border-bottom: 2px white solid;
+    }
+
+    #zoom {
+        background-color: #00000090;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        display: none;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    #zoom img {
+        width: 90%;
+    }
+
+    @media only screen and (min-width: 600px) {
+        #catalogue {
+            margin: 0 3rem;
+        }
+    }
+
+    @media only screen and (min-width: 820px) {
+        #zoom img {
+            height: 90%;
+            width: auto;
+        }
+    }
+
+    @media only screen and (min-width: 1024px) {
+        #catalogue {
+            margin: 0 10rem;
+        }
+    }
+</style>
